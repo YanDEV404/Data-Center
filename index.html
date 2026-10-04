@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="title">خادم الملفات — DataCenter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="lock-screen" id="lockScreen">
+    <div class="lock-glow"></div>
+    <div class="lock-box">
+        <div class="lock-icon">
+            <svg viewBox="0 0 24 24" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="11" width="18" height="11" rx="2"/>
+                <path d="M7 11V7a5 5 0 0110 0v4"/>
+                <circle cx="12" cy="16" r="1.5" fill="currentColor"/>
+            </svg>
+        </div>
+        <h1 class="lock-title" data-i18n="lock.title">نظام محمي</h1>
+        <p class="lock-sub" data-i18n="lock.sub">أدخل كلمة المرور للوصول إلى الخادم</p>
+        <div class="lock-input-wrap">
+            <input type="password" id="lockInput" class="lock-input"
+                   placeholder="• • • •" autocomplete="off" maxlength="12" inputmode="numeric">
+        </div>
+        <button class="lock-btn" id="lockBtn" data-i18n="lock.btn">دخول</button>
+        <div class="lock-error" id="lockError"></div>
+        <div class="lock-footer">DataCenter Security © 2025</div>
+    </div>
+</div>
+
+<aside class="sidebar" id="sidebar">
+    <div class="brand">
+        <div class="brand-logo">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="6" rx="2"/>
+                <rect x="3" y="15" width="18" height="6" rx="2"/>
+                <circle cx="7" cy="6" r="1" fill="currentColor"/>
+                <circle cx="7" cy="18" r="1" fill="currentColor"/>
+            </svg>
+        </div>
+        <div>
+            <div class="brand-name" data-i18n="brand.name">خادم الملفات</div>
+            <div class="brand-sub">DataCenter v1.0</div>
+        </div>
+    </div>
+
+    <nav class="nav">
+        <div class="nav-section" data-i18n="nav.main">الرئيسية</div>
+        <a class="nav-item active" data-view="dashboard"><span class="nav-ico">◈</span> <span data-i18n="nav.dashboard">لوحة التحكم</span></a>
+        <a class="nav-item" data-view="all"><span class="nav-ico">▤</span> <span data-i18n="nav.all">كل الملفات</span></a>
+
+        <div class="nav-section" data-i18n="nav.categories">الفئات</div>
+        <a class="nav-item" data-view="images"><span class="nav-ico">◉</span> <span data-i18n="nav.images">صور</span></a>
+        <a class="nav-item" data-view="videos"><span class="nav-ico">▶</span> <span data-i18n="nav.videos">فيديو</span></a>
+        <a class="nav-item" data-view="documents"><span class="nav-ico">≡</span> <span data-i18n="nav.documents">مستندات</span></a>
+        <a class="nav-item" data-view="archives"><span class="nav-ico">▣</span> <span data-i18n="nav.archives">أرشيف</span></a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="storage-mini">
+            <div class="storage-mini-label">
+                <span data-i18n="sidebar.used">المستخدم</span>
+                <span id="miniUsed">0 B</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="miniBar" style="width:0%"></div></div>
+        </div>
+    </div>
+</aside>
+
+<main class="main">
+    <header class="topbar">
+        <button class="icon-btn menu-btn" id="menuBtn">☰</button>
+
+        <div class="search-wrap">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+                <circle cx="11" cy="11" r="7"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="searchInput" data-i18n-placeholder="search.placeholder" placeholder="ابحث عن ملف...">
+        </div>
+
+        <div class="topbar-actions">
+            <div class="sort-wrap">
+                <select id="sortSelect">
+                    <option value="newest" data-i18n="sort.newest">الأحدث</option>
+                    <option value="oldest" data-i18n="sort.oldest">الأقدم</option>
+                    <option value="name-asc" data-i18n="sort.nameAsc">الاسم أ-ي</option>
+                    <option value="name-desc" data-i18n="sort.nameDesc">الاسم ي-أ</option>
+                    <option value="size-asc" data-i18n="sort.sizeAsc">الحجم ↑</option>
+                    <option value="size-desc" data-i18n="sort.sizeDesc">الحجم ↓</option>
+                    <option value="type" data-i18n="sort.type">النوع</option>
+                </select>
+            </div>
+
+            <div class="lang-wrap">
+                <img src="icons/globe.png" alt="lang" class="lang-icon">
+                <select id="langSelect" title="Language">
+                    <option value="ar">العربية</option>
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                </select>
+            </div>
+
+            <button class="icon-btn" id="viewToggle" title="View">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1"/>
+                </svg>
+            </button>
+
+            <button class="icon-btn" id="themeToggle" title="Theme">🌙</button>
+
+            <button class="btn btn-primary" id="uploadBtn">
+                <img src="icons/download.png" alt="upload" class="upload-icon-img">
+                <span data-i18n="btn.upload">رفع ملف</span>
+            </button>
+
+            <input type="file" id="fileInput" multiple hidden>
+        </div>
+    </header>
+
+    <section class="content" id="content">
+
+        <div class="view" id="view-dashboard">
+            <h1 class="page-title" data-i18n="dash.title">لوحة التحكم</h1>
+            <p class="page-sub" data-i18n="dash.sub">نظرة عامة على النظام والتخزين</p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">▤</div>
+                    <div class="stat-info">
+                        <div class="stat-label" data-i18n="dash.files">عدد الملفات</div>
+                        <div class="stat-value" id="statFiles">0</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">▥</div>
+                    <div class="stat-info">
+                        <div class="stat-label" data-i18n="dash.used">المساحة المستخدمة</div>
+                        <div class="stat-value" id="statUsed">0 B</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">▦</div>
+                    <div class="stat-info">
+                        <div class="stat-label" data-i18n="dash.remaining">المتبقي</div>
+                        <div class="stat-value" id="statRemaining">1 GB</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">◈</div>
+                    <div class="stat-info">
+                        <div class="stat-label" data-i18n="dash.status">الحالة</div>
+                        <div class="stat-value" style="color:var(--success)" data-i18n="dash.online">متصل ✓</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <h2 data-i18n="dash.storage">خادم التخزين</h2>
+                    <span class="badge" id="usagePct">0%</span>
+                </div>
+                <div class="storage-big">
+                    <div class="storage-big-numbers">
+                        <div>
+                            <div class="stat-label" data-i18n="dash.usedLabel">المستخدم</div>
+                            <div class="storage-big-value" id="dashUsed">0 B</div>
+                        </div>
+                        <div>
+                            <div class="stat-label" data-i18n="dash.quota">الحصة الكاملة</div>
+                            <div class="storage-big-value">1 GB</div>
+                        </div>
+                        <div>
+                            <div class="stat-label" data-i18n="dash.remainingLabel">المتبقي</div>
+                            <div class="storage-big-value" id="dashRemaining">1 GB</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar progress-lg">
+                        <div class="progress-fill" id="dashBar" style="width:0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <h2 data-i18n="dash.recent">آخر الملفات المرفوعة</h2>
+                </div>
+                <div id="recentList" class="recent-list"></div>
+            </div>
+        </div>
+
+        <div class="view hidden" id="view-files">
+            <div class="files-head">
+                <div>
+                    <h1 class="page-title" id="filesTitle">كل الملفات</h1>
+                    <div class="breadcrumb" id="breadcrumb"></div>
+                </div>
+                <div class="files-count" id="filesCount">0</div>
+            </div>
+
+            <div class="dropzone" id="dropzone">
+                <img src="icons/download.png" alt="drop" class="dropzone-img">
+                <div class="dropzone-title" data-i18n="drop.title">اسحب الملفات هنا</div>
+                <div class="dropzone-sub" data-i18n="drop.sub">أو انقر لاختيار ملفات</div>
+            </div>
+
+            <div id="fileGrid" class="file-grid"></div>
+        </div>
+
+    </section>
+</main>
+
+<div class="upload-panel" id="uploadPanel">
+    <div class="upload-head">
+        <div>
+            <div class="upload-title" data-i18n="upload.title">جاري الرفع</div>
+            <div class="upload-sub" id="uploadSub">0 / 0</div>
+        </div>
+        <button class="icon-btn" id="uploadClose">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#ef4444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </button>
+    </div>
+    <div id="uploadList" class="upload-list"></div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
